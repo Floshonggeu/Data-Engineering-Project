@@ -17,6 +17,8 @@ $docker build -t flask_app .
 open you browser 
 
 write: http://localhost:5000
+
+submit your text
 ### for linux :
 run: $docker 
 
@@ -25,3 +27,5 @@ $docker build -t flask_app .
 open you browser 
 
 write: http://localhost:5000
+
+submit your text
