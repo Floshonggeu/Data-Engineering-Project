@@ -6,10 +6,10 @@ Group members:
 - Brice
 
 
-### Way to execute the code
+## Way to execute the code
 open the cmd 
 go to the directory
-# for window:
+### for window:
 run: $docker up 
 
 $docker build -t flask_app .
@@ -17,7 +17,7 @@ $docker build -t flask_app .
 open you browser 
 
 write: http://localhost:5000
-# for linux :
+### for linux :
 run: $docker 
 
 $docker build -t flask_app . 
