@@ -10,12 +10,18 @@ Group members:
 open the cmd 
 go to the directory
 # for window:
-run: $docker up \n
-$docker build -t flask_app .\n
-open you browser \n
+run: $docker up 
+
+$docker build -t flask_app .
+
+open you browser 
+
 write: http://localhost:5000
 # for linux :
-run: $docker \n
-$docker build -t flask_app . \n
-open you browser \n
+run: $docker 
+
+$docker build -t flask_app . 
+
+open you browser 
+
 write: http://localhost:5000
