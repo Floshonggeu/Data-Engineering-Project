@@ -115,25 +115,26 @@ vectorizer = CountVectorizer(token_pattern = r'\b\w+\b')
 # Create matrixes
 train_matrix = vectorizer.fit_transform(X_train)
 test_matrix = vectorizer.transform(X_test)
-def do_model():
-	# Initialize model
-	lr = LogisticRegression()
 
-	# Use matrixes for the model
-	X_train = train_matrix
-	X_test = test_matrix
+# Initialize model
+lr = LogisticRegression()
 
-	# Fit model
-	lr.fit(X_train , Y_train)
-	return lr
+# Use matrixes for the model
+X_train = train_matrix
+X_test = test_matrix
 
-
+# Fit model
+lr.fit(X_train , Y_train)
 
 # Predict
 predictions = lr.predict(X_test)
 
 # Calculate accuracy
 accuracy = accuracy_score(Y_test, predictions)
+
+file = open("accuracy.txt", "w")
+file.write(str(accuracy))
+file.close()
 
 # Print accuracy score
 print("Accuracy score is:", accuracy)
