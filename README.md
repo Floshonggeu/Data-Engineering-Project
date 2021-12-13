@@ -3,7 +3,7 @@
 Group members:
 - Florian SHONG GEU
 - Rémi GUIGUET
-- Brice
+- Jean Brice KOUADIO
 
 
 ## Way to execute the code
