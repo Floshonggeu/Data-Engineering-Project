@@ -6,9 +6,7 @@ from nltk.corpus import stopwords, wordnet
 from nltk.tokenize import word_tokenize
 from nltk import pos_tag, pos_tag_sents
 from nltk.stem import WordNetLemmatizer
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
+from sklearn.feature_extraction.text import CountVectorizer
 
 # Download nltk features
 nltk.download('stopwords')
@@ -24,18 +22,6 @@ def remove_punctuation(data):
 	removed_data = removed_data.str.replace('_','')
 	removed_data = removed_data.str.replace("  "," ")
 	return removed_data
-
-def input_score(data):
-	counter = 0
-	for i in data:
-		if (i < 3):
-			data[counter] = - 1
-		elif (i == 3):
-			data[counter] = 0
-		elif (i > 3):
-			data[counter] = 1
-		counter = counter + 1
-	return data
 
 def remove_stopwords(data):
 	stop_words = stopwords.words('english')
@@ -67,66 +53,21 @@ def lemmatize_data(data):
 	data = data.transform(lambda value: ' '.join([lemmatizer.lemmatize(a[0], pos = get_wordnet_pos(a[1])) if get_wordnet_pos(a[1]) else a[0] for a in value]))
 	return data
 
-# Import data
-data = pd.read_csv('Reviews.csv', encoding = 'utf8', engine = 'python', error_bad_lines = False)
-
-# Remove useless columns
-data = data.drop(['Id', 'ProductId', 'UserId', 'ProfileName', 'HelpfulnessNumerator', 'HelpfulnessDenominator', 'Time', 'Summary'], axis = 1)
-
-len_data = len(data)
-to_drop = int(len_data * 0.999)
-data = data.drop(data.tail(to_drop).index)
-
-# Lower data
-data['Text'] = lower_data(data['Text'])
-
-# Remove puncuation
-data['Text'] = remove_punctuation(data['Text'])
-
-# Transform rating to variables
-data['Score'] = input_score(data['Score'])
-
-# Remove stopwords
-data['Text'] = remove_stopwords(data['Text'])
-
-# Tokenize data
-data['Text'] = tokenize_data(data, 'Text')
-
-# Set pos tags
-data['Text'] = set_pos_tag(data['Text'])
-
-# Lemmatize data
-data['Text'] = lemmatize_data(data['Text'])
-
-# Separating X and Y
-X = data['Text']
-Y = data['Score']
-
-# Split into train and test sets
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.25, random_state = 42)
-
-# Initialize vectorizer
-vectorizer = CountVectorizer(token_pattern = r'\b\w+\b')
-
-# Create matrixes
-train_matrix = vectorizer.fit_transform(X_train)
-test_matrix = vectorizer.transform(X_test)
-
-# Initialize model
-lr = LogisticRegression()
-
-# Use matrixes for the model
-X_train = train_matrix
-X_test = test_matrix
-
-# Fit model
-lr.fit(X_train , Y_train)
-
-# Predict
-predictions = lr.predict(X_test)
-
-# Calculate accuracy
-accuracy = accuracy_score(Y_test, predictions)
-
-# Print accuracy score
-print("Accuracy score is:" + accuracy)
+def preprocessing(data):
+	data[0] = lower_data(data[0])
+	# Remove puncuation
+	data[0] = remove_punctuation(data[0])
+	# Remove stopwords
+	data[0] = remove_stopwords(data[0])
+	# Tokenize data
+	data[0] = tokenize_data(data, 0)
+	# Set pos tags
+	data[0] = set_pos_tag(data[0])
+	# Lemmatize data
+	data[0] = lemmatize_data(data[0])
+	# Define test matrix
+	X_train = pd.read_csv('X_train.csv')
+	vectorizer = CountVectorizer(token_pattern = r'\b\w+\b')
+	train_matrix = vectorizer.fit_transform(X_train)
+	test_matrix = vectorizer.fit_transform(data[0])
+	return test_matrix
