@@ -1,8 +1,9 @@
 flask==1.1.2
 nltk==3.6.1
 joblib==1.0.1
-pandas==1.2.4
+wheel==0.36.2
+pandas==1.0.0
 scikit-learn==0.24.1
-numpy==1.20.1
+numpy==1.19.3
 unittest2==1.1.0
-requests=2.25.1
+requests==2.25.1
