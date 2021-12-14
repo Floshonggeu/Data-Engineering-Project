@@ -17,7 +17,7 @@ class My_sentiment_app(unittest.TestCase):
 
         result= open('accuracy.txt', 'r')
         content = result.read()
-        self.assertTrue(float(content) >80.0)
+        self.assertTrue(float(content) >0.80)
 
 
 
